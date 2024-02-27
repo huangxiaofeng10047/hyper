@@ -128,7 +128,6 @@ const reducer: ISessionReducer = (state = initialState, action) => {
       }
       return state;
     case SESSION_URL_SET:
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       return state.setIn(['sessions', action.uid, 'url'], action.url);
     default:
       return state;
