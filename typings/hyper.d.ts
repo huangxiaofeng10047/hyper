@@ -198,7 +198,7 @@ type extensionProps = Partial<{
   customChildren: ReactChild | ReactChild[];
   customChildrenBefore: ReactChild | ReactChild[];
   customCSS: string;
-  url: string | null; 
+  url: string | null;
   customInnerChildren: ReactChild | ReactChild[];
 }>;
 
