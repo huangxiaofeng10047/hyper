@@ -1,7 +1,7 @@
 import {clipboard} from 'electron';
-import * as remote from '@electron/remote';
 import React from 'react';
 
+import * as remote from '@electron/remote';
 import Color from 'color';
 import isEqual from 'lodash/isEqual';
 import pickBy from 'lodash/pickBy';
@@ -542,7 +542,7 @@ export default class Term extends React.PureComponent<
   render() {
     return (
       <div className={`term_fit ${this.props.isTermActive ? 'term_active' : ''}`} onMouseUp={this.onMouseUp}>
-       { this.props.url ? (
+        {this.props.url ? (
           <webview
             ref={this.setWebViewRef}
             src={this.props.url}
@@ -558,43 +558,43 @@ export default class Term extends React.PureComponent<
           />
         ) : (
           <>
-           {this.props.customChildrenBefore}
-        <div ref={this.onTermWrapperRef} className="term_fit term_wrapper" />
-        {this.props.customChildren}
-        {this.props.search ? (
-          <SearchBox
-            next={this.searchNext}
-            prev={this.searchPrevious}
-            close={this.closeSearchBox}
-            caseSensitive={this.state.searchOptions.caseSensitive}
-            wholeWord={this.state.searchOptions.wholeWord}
-            regex={this.state.searchOptions.regex}
-            results={this.state.searchResults}
-            toggleCaseSensitive={() =>
-              this.setState({
-                ...this.state,
-                searchOptions: {...this.state.searchOptions, caseSensitive: !this.state.searchOptions.caseSensitive}
-              })
-            }
-            toggleWholeWord={() =>
-              this.setState({
-                ...this.state,
-                searchOptions: {...this.state.searchOptions, wholeWord: !this.state.searchOptions.wholeWord}
-              })
-            }
-            toggleRegex={() =>
-              this.setState({
-                ...this.state,
-                searchOptions: {...this.state.searchOptions, regex: !this.state.searchOptions.regex}
-              })
-            }
-            selectionColor={this.props.selectionColor}
-            backgroundColor={this.props.backgroundColor}
-            foregroundColor={this.props.foregroundColor}
-            borderColor={this.props.borderColor}
-            font={this.props.uiFontFamily}
-          />
-        ) : null}
+            {this.props.customChildrenBefore}
+            <div ref={this.onTermWrapperRef} className="term_fit term_wrapper" />
+            {this.props.customChildren}
+            {this.props.search ? (
+              <SearchBox
+                next={this.searchNext}
+                prev={this.searchPrevious}
+                close={this.closeSearchBox}
+                caseSensitive={this.state.searchOptions.caseSensitive}
+                wholeWord={this.state.searchOptions.wholeWord}
+                regex={this.state.searchOptions.regex}
+                results={this.state.searchResults}
+                toggleCaseSensitive={() =>
+                  this.setState({
+                    ...this.state,
+                    searchOptions: {...this.state.searchOptions, caseSensitive: !this.state.searchOptions.caseSensitive}
+                  })
+                }
+                toggleWholeWord={() =>
+                  this.setState({
+                    ...this.state,
+                    searchOptions: {...this.state.searchOptions, wholeWord: !this.state.searchOptions.wholeWord}
+                  })
+                }
+                toggleRegex={() =>
+                  this.setState({
+                    ...this.state,
+                    searchOptions: {...this.state.searchOptions, regex: !this.state.searchOptions.regex}
+                  })
+                }
+                selectionColor={this.props.selectionColor}
+                backgroundColor={this.props.backgroundColor}
+                foregroundColor={this.props.foregroundColor}
+                borderColor={this.props.borderColor}
+                font={this.props.uiFontFamily}
+              />
+            ) : null}
           </>
         )}
 
