@@ -542,7 +542,7 @@ export default class Term extends React.PureComponent<
   render() {
     return (
       <div className={`term_fit ${this.props.isTermActive ? 'term_active' : ''}`} onMouseUp={this.onMouseUp}>
-              {this.props.url ? (
+       { this.props.url ? (
           <webview
             ref={this.setWebViewRef}
             src={this.props.url}
@@ -556,9 +556,9 @@ export default class Term extends React.PureComponent<
               height: '100%'
             }}
           />
-        ) :(
+        ) : (
           <>
-        {this.props.customChildrenBefore}
+           {this.props.customChildrenBefore}
         <div ref={this.onTermWrapperRef} className="term_fit term_wrapper" />
         {this.props.customChildren}
         {this.props.search ? (
@@ -594,8 +594,9 @@ export default class Term extends React.PureComponent<
             borderColor={this.props.borderColor}
             font={this.props.uiFontFamily}
           />
-          </>
         ) : null}
+          </>
+        )}
 
         <style jsx global>{`
           .term_fit {
