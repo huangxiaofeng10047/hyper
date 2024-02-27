@@ -32,7 +32,7 @@ const SearchBox = decorate(_SearchBox, 'SearchBox');
 
 const isWindows = ['Windows', 'Win16', 'Win32', 'WinCE'].includes(navigator.platform) || process.platform === 'win32';
 
-const store =configureStore();
+const store = configureStore();
 // map old hterm constants to xterm.js
 const CURSOR_STYLES = {
   BEAM: 'bar',
