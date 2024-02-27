@@ -12,15 +12,10 @@ import writeMiddleware from './write-middleware';
 
 const thunk: ThunkMiddleware<HyperState, HyperActions> = _thunk;
 
-// const configureStoreForDevelopment = () => {
-//   const enhancer = composeWithDevTools(applyMiddleware(thunk, plugins.middleware, thunk, writeMiddleware, effects));
-
-//   return createStore(rootReducer, enhancer);
-// };
-
-// export default configureStoreForDevelopment;
-export default () => {
+const configureStoreForDevelopment = () => {
   const enhancer = composeWithDevTools(applyMiddleware(thunk, plugins.middleware, thunk, writeMiddleware, effects));
 
   return createStore(rootReducer, enhancer);
 };
+
+export default configureStoreForDevelopment;
