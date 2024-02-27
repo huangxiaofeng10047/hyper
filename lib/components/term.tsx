@@ -1,4 +1,5 @@
-import {clipboard, shell} from 'electron';
+import {clipboard} from 'electron';
+import * as remote from '@electron/remote';
 import React from 'react';
 
 import Color from 'color';
@@ -125,6 +126,8 @@ export default class Term extends React.PureComponent<
   term!: Terminal;
   resizeObserver!: ResizeObserver;
   resizeTimeout!: NodeJS.Timeout;
+  // add webviewRef
+  webviewRef: HTMLIFrameElement | null;
   searchDecorations: ISearchDecorationOptions;
   state = {
     searchOptions: {
@@ -216,7 +219,12 @@ export default class Term extends React.PureComponent<
       this.term.loadAddon(this.searchAddon);
       this.term.loadAddon(
         new WebLinksAddon((event, uri) => {
-          if (shallActivateWebLink(event)) void shell.openExternal(uri);
+          // if (shallActivateWebLink(event)) void shell.openExternal(uri);
+          store.dispatch({
+            type: 'SESSION_URL_SET',
+            uid: props.uid,
+            url: uri
+          });
         })
       );
       this.term.open(this.termRef);
@@ -509,10 +517,47 @@ export default class Term extends React.PureComponent<
       capture: true
     });
   }
+  setWebViewRef = (webView: any) => {
+    const oldRef = this.webViewRef;
+    this.webViewRef = webView;
 
+    if (!oldRef && webView) {
+      setTimeout(() => {
+        const wc = remote.webContents.fromId(webView.getWebContentsId());
+        wc.setIgnoreMenuShortcuts(true);
+        wc.on('before-input-event', (_event, input) => {
+          if (input.type === 'keyDown') {
+            if (input.key === 'r' && input.meta) {
+              webView.reload();
+            } else if (input.key === '=' && input.meta) {
+              wc.setZoomLevel(wc.getZoomLevel() + 1);
+            } else if (input.key === '-' && input.meta) {
+              wc.setZoomLevel(wc.getZoomLevel() - 1);
+            }
+          }
+        });
+      }, 10);
+    }
+  };
   render() {
     return (
       <div className={`term_fit ${this.props.isTermActive ? 'term_active' : ''}`} onMouseUp={this.onMouseUp}>
+              {this.props.url ? (
+          <webview
+            ref={this.setWebViewRef}
+            src={this.props.url}
+            style={{
+              background: '#fff',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              display: 'inline-flex',
+              width: '100%',
+              height: '100%'
+            }}
+          />
+        ) :(
+          <>
         {this.props.customChildrenBefore}
         <div ref={this.onTermWrapperRef} className="term_fit term_wrapper" />
         {this.props.customChildren}
@@ -549,6 +594,7 @@ export default class Term extends React.PureComponent<
             borderColor={this.props.borderColor}
             font={this.props.uiFontFamily}
           />
+          </>
         ) : null}
 
         <style jsx global>{`

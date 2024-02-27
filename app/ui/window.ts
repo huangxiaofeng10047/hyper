@@ -50,7 +50,9 @@ export function newWindow(
     webPreferences: {
       nodeIntegration: true,
       navigateOnDragDrop: true,
-      contextIsolation: false
+      contextIsolation: false,
+      //启用webviewtag
+      webviewTag: true
     },
     ...options_
   };
