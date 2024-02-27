@@ -369,7 +369,6 @@ export type TermProps = {
   foregroundColor: string;
   imageSupport: boolean;
   isTermActive: boolean;
-  url: string | null;
   letterSpacing: number;
   lineHeight: number;
   macOptionSelectionMode: string;
