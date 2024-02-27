@@ -1,3 +1,4 @@
+/* eslint @typescript-eslint/no-unsafe-call: 0 */
 import {clipboard} from 'electron';
 import React from 'react';
 
@@ -127,7 +128,8 @@ export default class Term extends React.PureComponent<
   resizeObserver!: ResizeObserver;
   resizeTimeout!: NodeJS.Timeout;
   // add webviewRef
-  webviewRef: HTMLIFrameElement | null;
+  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
+  webViewRef: any | null;
   searchDecorations: ISearchDecorationOptions;
   state = {
     searchOptions: {
@@ -208,6 +210,7 @@ export default class Term extends React.PureComponent<
       }
       Term.reportRenderer(props.uid, useWebGL ? 'WebGL' : 'Canvas');
 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const shallActivateWebLink = (event: MouseEvent): boolean => {
         if (!event) return false;
         return props.webLinksActivationKey ? event[`${props.webLinksActivationKey}Key`] : true;
@@ -523,6 +526,7 @@ export default class Term extends React.PureComponent<
 
     if (!oldRef && webView) {
       setTimeout(() => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         const wc = remote.webContents.fromId(webView.getWebContentsId());
         wc.setIgnoreMenuShortcuts(true);
         wc.on('before-input-event', (_event, input) => {
