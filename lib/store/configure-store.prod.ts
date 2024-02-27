@@ -11,7 +11,9 @@ import writeMiddleware from './write-middleware';
 
 const thunk: ThunkMiddleware<HyperState, HyperActions> = _thunk;
 
-const configureStoreForProd = () =>
-  createStore(rootReducer, applyMiddleware(thunk, plugins.middleware, thunk, writeMiddleware, effects));
+// const configureStoreForProd = () =>
+//   createStore(rootReducer, applyMiddleware(thunk, plugins.middleware, thunk, writeMiddleware, effects));
 
-export default configureStoreForProd;
+// export default configureStoreForProd;
+export default () =>
+  createStore(rootReducer, applyMiddleware(thunk, plugins.middleware, thunk, writeMiddleware, effects));

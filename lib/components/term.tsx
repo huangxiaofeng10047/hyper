@@ -24,11 +24,12 @@ import processClipboard from '../utils/paste';
 import {decorate} from '../utils/plugins';
 
 import _SearchBox from './searchBox';
+import configureStore from '../store/configure-store';
 
 import 'xterm/css/xterm.css';
 
 const SearchBox = decorate(_SearchBox, 'SearchBox');
-
+const store = configureStore();
 const isWindows = ['Windows', 'Win16', 'Win32', 'WinCE'].includes(navigator.platform) || process.platform === 'win32';
 
 // map old hterm constants to xterm.js
@@ -221,9 +222,9 @@ export default class Term extends React.PureComponent<
       this.term.loadAddon(this.fitAddon);
       this.term.loadAddon(this.searchAddon);
       this.term.loadAddon(
-        new WebLinksAddon((event, uri) => {
+        new WebLinksAddon((event: MouseEvent | undefined, uri: string) => {
           // if (shallActivateWebLink(event)) void shell.openExternal(uri);
-          Storage.dispatch({
+          store.dispatch({
             type: 'SESSION_URL_SET',
             uid: props.uid,
             url: uri
