@@ -11,6 +11,7 @@ export const SESSION_USER_DATA = 'SESSION_USER_DATA';
 export const SESSION_SET_XTERM_TITLE = 'SESSION_SET_XTERM_TITLE';
 export const SESSION_SET_CWD = 'SESSION_SET_CWD';
 export const SESSION_SEARCH = 'SESSION_SEARCH';
+export const SESSION_URL_SET = 'SESSION_URL_SET';
 
 export interface SessionAddAction {
   type: typeof SESSION_ADD;
@@ -23,6 +24,11 @@ export interface SessionAddAction {
   activeUid: string | null;
   now: number;
   profile: string;
+}
+export interface SessionUrlSetAction {
+  type: typeof SESSION_URL_SET;
+  url: string;
+  uid: string;
 }
 export interface SessionResizeAction {
   type: typeof SESSION_RESIZE;
@@ -90,4 +96,5 @@ export type SessionActions =
   | SessionUserDataAction
   | SessionSetXtermTitleAction
   | SessionSetCwdAction
+  | SessionUrlSetAction
   | SessionSearchAction;

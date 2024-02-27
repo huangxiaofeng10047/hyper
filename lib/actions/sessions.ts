@@ -162,7 +162,6 @@ export function closeSearch(uid?: string, keyEvent?: any) {
     }
   };
 }
-
 export function sendSessionData(uid: string | null, data: string, escaped?: boolean) {
   return (dispatch: HyperDispatch, getState: () => HyperState) => {
     dispatch({
