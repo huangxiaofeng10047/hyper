@@ -24,12 +24,11 @@ import processClipboard from '../utils/paste';
 import {decorate} from '../utils/plugins';
 
 import _SearchBox from './searchBox';
-import configureStore from '../store/configure-store';
 
 import 'xterm/css/xterm.css';
 
 const SearchBox = decorate(_SearchBox, 'SearchBox');
-const store = configureStore();
+
 const isWindows = ['Windows', 'Win16', 'Win32', 'WinCE'].includes(navigator.platform) || process.platform === 'win32';
 
 // map old hterm constants to xterm.js
