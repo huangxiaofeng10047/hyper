@@ -19,6 +19,7 @@ import {WebLinksAddon} from 'xterm-addon-web-links';
 import {WebglAddon} from 'xterm-addon-webgl';
 
 import type {TermProps} from '../../typings/hyper';
+import configureStore from '../store/configure-store';
 import terms from '../terms';
 import processClipboard from '../utils/paste';
 import {decorate} from '../utils/plugins';
@@ -31,6 +32,7 @@ const SearchBox = decorate(_SearchBox, 'SearchBox');
 
 const isWindows = ['Windows', 'Win16', 'Win32', 'WinCE'].includes(navigator.platform) || process.platform === 'win32';
 
+const store =configureStore();
 // map old hterm constants to xterm.js
 const CURSOR_STYLES = {
   BEAM: 'bar',
