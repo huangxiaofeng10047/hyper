@@ -122,6 +122,7 @@ export type session = {
   shell: string | null;
   title: string;
   uid: string;
+  url: string | null;
   splitDirection?: 'HORIZONTAL' | 'VERTICAL';
   activeUid?: string;
   profile: string;

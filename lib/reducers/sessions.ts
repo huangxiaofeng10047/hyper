@@ -10,7 +10,8 @@ import {
   SESSION_RESIZE,
   SESSION_SET_XTERM_TITLE,
   SESSION_SET_CWD,
-  SESSION_SEARCH
+  SESSION_SEARCH,
+  SESSION_URL_SET
 } from '../../typings/constants/sessions';
 import type {sessionState, session, Mutable, ISessionReducer} from '../../typings/hyper';
 import {decorateSessionsReducer} from '../utils/plugins';
@@ -26,6 +27,7 @@ function Session(obj: Immutable.DeepPartial<session>) {
     title: '',
     cols: null,
     rows: null,
+    url: null,
     cleared: false,
     search: false,
     shell: '',
@@ -126,7 +128,8 @@ const reducer: ISessionReducer = (state = initialState, action) => {
         return state.setIn(['sessions', state.activeUid, 'cwd'], action.cwd);
       }
       return state;
-
+    case SESSION_URL_SET:
+      return state.setIn(['sessions', action.uid, 'url'], action.url);
     default:
       return state;
   }
