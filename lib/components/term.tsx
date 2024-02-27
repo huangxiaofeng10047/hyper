@@ -223,7 +223,7 @@ export default class Term extends React.PureComponent<
       this.term.loadAddon(
         new WebLinksAddon((event, uri) => {
           // if (shallActivateWebLink(event)) void shell.openExternal(uri);
-          store.dispatch({
+          Storage.dispatch({
             type: 'SESSION_URL_SET',
             uid: props.uid,
             url: uri
