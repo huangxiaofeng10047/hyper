@@ -198,7 +198,6 @@ type extensionProps = Partial<{
   customChildren: ReactChild | ReactChild[];
   customChildrenBefore: ReactChild | ReactChild[];
   customCSS: string;
-  url: string | null;
   customInnerChildren: ReactChild | ReactChild[];
 }>;
 
@@ -393,6 +392,7 @@ export type TermProps = {
   term: Terminal | null;
   uid: string;
   uiFontFamily: string;
+  url: string | null;
   webGLRenderer: boolean;
   webLinksActivationKey: 'ctrl' | 'alt' | 'meta' | 'shift' | '';
   windowsPty?: IWindowsPty;
