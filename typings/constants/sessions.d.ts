@@ -79,6 +79,7 @@ export interface SessionSearchAction {
 }
 export interface SessionUrlSetAction {
   type: typeof SESSION_URL_SET;
+  uid: string;
   url: string;
 }
 
