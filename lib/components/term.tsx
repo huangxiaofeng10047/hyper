@@ -26,8 +26,6 @@ import {decorate} from '../utils/plugins';
 import _SearchBox from './searchBox';
 
 import 'xterm/css/xterm.css';
-// eslint-disable-next-line import/order
-import {setOpenUrl} from '../actions/sessions';
 
 const SearchBox = decorate(_SearchBox, 'SearchBox');
 

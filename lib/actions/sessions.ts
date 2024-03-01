@@ -101,7 +101,7 @@ export function setActiveSession(uid: string) {
     });
   };
 }
-export function setOpenUrl(url: string,uid: string) {
+export function setOpenUrl(url: string, uid: string) {
   return (dispatch: HyperDispatch) => {
     dispatch({
       type: SESSION_URL_SET,
