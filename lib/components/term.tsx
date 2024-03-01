@@ -27,6 +27,7 @@ import {decorate} from '../utils/plugins';
 import _SearchBox from './searchBox';
 
 import 'xterm/css/xterm.css';
+import { setOpenUrl } from '../actions/sessions';
 
 const SearchBox = decorate(_SearchBox, 'SearchBox');
 
@@ -209,12 +210,7 @@ export default class Term extends React.PureComponent<TermProps> {
       this.term.loadAddon(
         new WebLinksAddon((event: MouseEvent | undefined, uri: string) => {
           // if (shallActivateWebLink(event)) void shell.openExternal(uri);
-          const dispatch = useDispatch();
-          dispatch({
-            type: 'SESSION_URL_SET',
-            uid: props.uid,
-            url: uri
-          });
+          setOpenUrl(uri);
         })
       );
       this.term.open(this.termRef);

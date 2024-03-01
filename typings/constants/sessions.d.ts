@@ -25,11 +25,6 @@ export interface SessionAddAction {
   now: number;
   profile: string;
 }
-export interface SessionUrlSetAction {
-  type: typeof SESSION_URL_SET;
-  url: string;
-  uid: string;
-}
 export interface SessionResizeAction {
   type: typeof SESSION_RESIZE;
   uid: string;
@@ -81,6 +76,10 @@ export interface SessionSearchAction {
   type: typeof SESSION_SEARCH;
   uid: string;
   value: boolean;
+}
+export interface SessionUrlSetAction {
+  type: typeof SESSION_URL_SET;
+  url: string;
 }
 
 export type SessionActions =

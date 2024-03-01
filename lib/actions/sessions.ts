@@ -11,7 +11,8 @@ import {
   SESSION_CLEAR_ACTIVE,
   SESSION_USER_DATA,
   SESSION_SET_XTERM_TITLE,
-  SESSION_SEARCH
+  SESSION_SEARCH,
+  SESSION_URL_SET
 } from '../../typings/constants/sessions';
 import type {HyperState, HyperDispatch, HyperActions} from '../../typings/hyper';
 import rpc from '../rpc';
@@ -100,7 +101,14 @@ export function setActiveSession(uid: string) {
     });
   };
 }
-
+export function setOpenUrl(url: string) {
+  return (dispatch: HyperDispatch) => {
+    dispatch({
+      type: SESSION_URL_SET,
+      url
+    });
+  };
+}
 export function clearActiveSession(): HyperActions {
   return {
     type: SESSION_CLEAR_ACTIVE
