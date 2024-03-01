@@ -6,7 +6,6 @@ import * as remote from '@electron/remote';
 import Color from 'color';
 import isEqual from 'lodash/isEqual';
 import pickBy from 'lodash/pickBy';
-import {useDispatch} from 'react-redux';
 import {Terminal} from 'xterm';
 import type {ITerminalOptions, IDisposable} from 'xterm';
 import {CanvasAddon} from 'xterm-addon-canvas';
