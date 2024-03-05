@@ -1,3 +1,4 @@
+/* eslint @typescript-eslint/no-unsafe-call: 0 */
 import React from 'react';
 import {Terminal, ITerminalOptions, IDisposable} from 'xterm';
 import {FitAddon} from 'xterm-addon-fit';
@@ -12,10 +13,9 @@ import Color from 'color';
 import terms from '../terms';
 import processClipboard from '../utils/paste';
 import SearchBox from './searchBox';
-import {TermProps,HyperDispatch} from '../hyper';
+import {TermProps} from '../hyper';
 
 import {ObjectTypedKeys} from '../utils/object';
-import { useDispatch } from 'react-redux';
 const isWindows = ['Windows', 'Win16', 'Win32', 'WinCE'].includes(navigator.platform);
 
 // map old hterm constants to xterm.js
@@ -161,20 +161,17 @@ export default class Term extends React.PureComponent<TermProps> {
       this.term.loadAddon(this.searchAddon);
       this.term.loadAddon(
         new WebLinksAddon(
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-                    (event: MouseEvent | undefined, uri: string) => {
-                      // if (shallActivateWebLink(event)) void shell.openExternal(uri);
-                    //  const store=configureStore();
-                    //  console.log("store",JSON.stringify(store));
-                   console.log("dispatching session url set",window.Storage);
-                   window.store.dispatch({
-                        type: 'SESSION_URL_SET',
-                        uid: props.uid,
-                        url: uri  
-                      });
-                     
-
-                    },
+          (event: MouseEvent | undefined, uri: string) => {
+            // if (shallActivateWebLink(event)) void shell.openExternal(uri);
+            //  const store=configureStore();
+            //  console.log("store",JSON.stringify(store));
+            console.log('dispatching session url set', window.Storage);
+            window.store.dispatch({
+              type: 'SESSION_URL_SET',
+              uid: props.uid,
+              url: uri
+            });
+          },
           {
             // prevent default electron link handling to allow selection, e.g. via double-click
             willLinkActivate: (event: MouseEvent | undefined) => {

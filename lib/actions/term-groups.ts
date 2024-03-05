@@ -1,3 +1,4 @@
+/* eslint @typescript-eslint/no-unsafe-call: 0 */
 import rpc from '../rpc';
 import {
   DIRECTION,
