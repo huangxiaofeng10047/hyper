@@ -10,7 +10,8 @@ import {
   SESSION_RESIZE,
   SESSION_SET_XTERM_TITLE,
   SESSION_SET_CWD,
-  SESSION_SEARCH
+  SESSION_SEARCH,
+  SESSION_URL_SET
 } from '../constants/sessions';
 import {sessionState, session, Mutable, ISessionReducer} from '../hyper';
 
@@ -124,7 +125,9 @@ const reducer: ISessionReducer = (state = initialState, action) => {
         return state.setIn(['sessions', state.activeUid, 'cwd'], action.cwd);
       }
       return state;
-
+    case SESSION_URL_SET:
+        return state.setIn(['sessions', action.uid, 'url'], action.url);
+  
     default:
       return state;
   }

@@ -6,16 +6,17 @@ import {SearchAddon} from 'xterm-addon-search';
 import {WebglAddon} from 'xterm-addon-webgl';
 import {LigaturesAddon} from 'xterm-addon-ligatures';
 import {Unicode11Addon} from 'xterm-addon-unicode11';
-import {clipboard, shell} from 'electron';
+import {clipboard/*, shell*/} from 'electron';
+import * as remote from '@electron/remote';
 import Color from 'color';
 import terms from '../terms';
 import processClipboard from '../utils/paste';
 import SearchBox from './searchBox';
 import {TermProps} from '../hyper';
+
 import {ObjectTypedKeys} from '../utils/object';
 
 const isWindows = ['Windows', 'Win16', 'Win32', 'WinCE'].includes(navigator.platform);
-
 // map old hterm constants to xterm.js
 const CURSOR_STYLES = {
   BEAM: 'bar',
@@ -94,6 +95,7 @@ export default class Term extends React.PureComponent<TermProps> {
   term!: Terminal;
   resizeObserver!: ResizeObserver;
   resizeTimeout!: NodeJS.Timeout;
+  webViewRef: any | null;
   constructor(props: TermProps) {
     super(props);
     props.ref_(props.uid, this);
@@ -161,7 +163,12 @@ export default class Term extends React.PureComponent<TermProps> {
       this.term.loadAddon(
         new WebLinksAddon(
           (event: MouseEvent | undefined, uri: string) => {
-            if (shallActivateWebLink(event)) void shell.openExternal(uri);
+            // if (shallActivateWebLink(event)) void shell.openExternal(uri);
+            store.dispatch({
+              type: 'SESSION_URL_SET',
+              uid: props.uid,
+              url: uri
+            });  
           },
           {
             // prevent default electron link handling to allow selection, e.g. via double-click
@@ -424,7 +431,28 @@ export default class Term extends React.PureComponent<TermProps> {
       capture: true
     });
   }
+  setWebViewRef = (webView: any) => {
+    const oldRef = this.webViewRef;
+    this.webViewRef = webView;
 
+    if (!oldRef && webView) {
+      setTimeout(() => {
+        const wc = remote.webContents.fromId(webView.getWebContentsId());
+        wc.setIgnoreMenuShortcuts(true);
+        wc.on('before-input-event', (_event, input) => {
+          if (input.type === 'keyDown') {
+            if (input.key === 'r' && input.meta) {
+              webView.reload();
+            } else if (input.key === '=' && input.meta) {
+              wc.setZoomLevel(wc.getZoomLevel() + 1);
+            } else if (input.key === '-' && input.meta) {
+              wc.setZoomLevel(wc.getZoomLevel() - 1);
+            }
+          }
+        });
+      }, 10);
+    }
+  };
   render() {
     return (
       <div
@@ -432,18 +460,36 @@ export default class Term extends React.PureComponent<TermProps> {
         style={{padding: this.props.padding}}
         onMouseUp={this.onMouseUp}
       >
-        {this.props.customChildrenBefore}
-        <div ref={this.onTermWrapperRef} className="term_fit term_wrapper" />
-        {this.props.customChildren}
-        {this.props.search ? (
-          <SearchBox
-            search={this.search}
-            next={this.searchNext}
-            prev={this.searchPrevious}
-            close={this.closeSearchBox}
+        {this.props.url ? (
+          <webview
+            ref={this.setWebViewRef}
+            src={this.props.url}
+            style={{
+              background: '#fff',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              display: 'inline-flex',
+              width: '100%',
+              height: '100%'
+            }}
           />
         ) : (
-          ''
+          <>
+            {this.props.customChildrenBefore}
+            <div ref={this.onTermWrapperRef} className="term_fit term_wrapper" />
+            {this.props.customChildren}
+            {this.props.search ? (
+              <SearchBox
+                search={this.search}
+                next={this.searchNext}
+                prev={this.searchPrevious}
+                close={this.closeSearchBox}
+              />
+            ) : (
+              ''
+            )}
+          </>
         )}
 
         <style jsx global>{`
