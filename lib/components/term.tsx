@@ -6,24 +6,24 @@ import {SearchAddon} from 'xterm-addon-search';
 import {WebglAddon} from 'xterm-addon-webgl';
 import {LigaturesAddon} from 'xterm-addon-ligatures';
 import {Unicode11Addon} from 'xterm-addon-unicode11';
-import {clipboard/*, shell*/} from 'electron';
+import {clipboard /*, shell*/} from 'electron';
 import * as remote from '@electron/remote';
 import Color from 'color';
 import terms from '../terms';
 import processClipboard from '../utils/paste';
 import SearchBox from './searchBox';
-import {TermProps} from '../hyper';
+import {TermProps,HyperDispatch} from '../hyper';
 
 import {ObjectTypedKeys} from '../utils/object';
-
+import configureStore from '../store/configure-store';
 const isWindows = ['Windows', 'Win16', 'Win32', 'WinCE'].includes(navigator.platform);
+
 // map old hterm constants to xterm.js
 const CURSOR_STYLES = {
   BEAM: 'bar',
   UNDERLINE: 'underline',
   BLOCK: 'block'
 } as const;
-
 const isWebgl2Supported = (() => {
   let isSupported = window.WebGL2RenderingContext ? undefined : false;
   return () => {
@@ -127,7 +127,7 @@ export default class Term extends React.PureComponent<TermProps> {
 
     // The parent element for the terminal is attached and removed manually so
     // that we can preserve it across mounts and unmounts of the component
-    this.termRef = props.term ? props.term.element!.parentElement! : document.createElement('div');
+    this.termRef = props.term ? props.term.element.parentElement : document.createElement('div');
     this.termRef.className = 'term_fit term_term';
 
     this.termWrapperRef?.appendChild(this.termRef);
@@ -162,14 +162,18 @@ export default class Term extends React.PureComponent<TermProps> {
       this.term.loadAddon(this.searchAddon);
       this.term.loadAddon(
         new WebLinksAddon(
-          (event: MouseEvent | undefined, uri: string) => {
-            // if (shallActivateWebLink(event)) void shell.openExternal(uri);
-            store.dispatch({
-              type: 'SESSION_URL_SET',
-              uid: props.uid,
-              url: uri
-            });  
-          },
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+                    (event: MouseEvent | undefined, uri: string) => {
+                      // if (shallActivateWebLink(event)) void shell.openExternal(uri);
+                    //  const store=configureStore();
+                     console.log("store",JSON.stringify(store));
+                     store.dispatch({
+                      type: 'SESSION_URL_SET',
+                      uid: props.uid,
+                      url: uri
+                    });
+
+                    },
           {
             // prevent default electron link handling to allow selection, e.g. via double-click
             willLinkActivate: (event: MouseEvent | undefined) => {
@@ -349,7 +353,7 @@ export default class Term extends React.PureComponent<TermProps> {
 
     // Use bellSound in nextProps if it exists
     // otherwise use the default sound found in xterm.
-    nextTermOptions.bellSound = this.props.bellSound || this.termDefaultBellSound!;
+    nextTermOptions.bellSound = this.props.bellSound || this.termDefaultBellSound;
 
     if (!prevProps.search && this.props.search) {
       this.search();
@@ -375,8 +379,8 @@ export default class Term extends React.PureComponent<TermProps> {
     const shouldUpdateTheme =
       !this.termOptions.theme ||
       nextTermOptions.rendererType !== this.termOptions.rendererType ||
-      ObjectTypedKeys(nextTermOptions.theme!).some(
-        (option) => nextTermOptions.theme![option] !== this.termOptions.theme![option]
+      ObjectTypedKeys(nextTermOptions.theme).some(
+        (option) => nextTermOptions.theme[option] !== this.termOptions.theme[option]
       );
     if (shouldUpdateTheme) {
       this.term.setOption('theme', nextTermOptions.theme);
@@ -395,7 +399,7 @@ export default class Term extends React.PureComponent<TermProps> {
     }
 
     if (prevProps.rows !== this.props.rows || prevProps.cols !== this.props.cols) {
-      this.resize(this.props.cols!, this.props.rows!);
+      this.resize(this.props.cols, this.props.rows);
     }
   }
 
@@ -417,7 +421,7 @@ export default class Term extends React.PureComponent<TermProps> {
 
   componentWillUnmount() {
     terms[this.props.uid] = null;
-    this.termWrapperRef?.removeChild(this.termRef!);
+    this.termWrapperRef?.removeChild(this.termRef);
     this.props.ref_(this.props.uid, null);
 
     // to clean up the terminal, we remove the listeners

@@ -99,7 +99,7 @@ const findNextSessionUid = (state: ITermState, group: ITermGroup) => {
     return findFirstSession(state, nextGroup);
   }
 
-  const {children} = state.termGroups[group.parentUid!];
+  const {children} = state.termGroups[group.parentUid];
   const nextUid = findPrevious(children.asMutable(), group.uid);
   return findFirstSession(state, state.termGroups[nextUid]);
 };
@@ -117,10 +117,10 @@ export function ptyExitTermGroup(sessionUid: string) {
       type: TERM_GROUP_EXIT,
       uid: group.uid,
       effect: () => {
-        const activeSessionUid = termGroups.activeSessions[termGroups.activeRootGroup!];
+        const activeSessionUid = termGroups.activeSessions[termGroups.activeRootGroup];
         if (Object.keys(termGroups.termGroups).length > 1 && activeSessionUid === sessionUid) {
           const nextSessionUid = findNextSessionUid(termGroups, group);
-          dispatch(setActiveSession(nextSessionUid!));
+          dispatch(setActiveSession(nextSessionUid));
         }
 
         dispatch(ptyExitSession(sessionUid));
@@ -140,13 +140,13 @@ export function userExitTermGroup(uid: string) {
         if (Object.keys(termGroups.termGroups).length <= 1) {
           // No need to attempt finding a new active session
           // if this is the last one we've got:
-          return dispatch(userExitSession(group.sessionUid!));
+          return dispatch(userExitSession(group.sessionUid));
         }
 
-        const activeSessionUid = termGroups.activeSessions[termGroups.activeRootGroup!];
+        const activeSessionUid = termGroups.activeSessions[termGroups.activeRootGroup];
         if (termGroups.activeRootGroup === uid || activeSessionUid === group.sessionUid) {
           const nextSessionUid = findNextSessionUid(termGroups, group);
-          dispatch(setActiveSession(nextSessionUid!));
+          dispatch(setActiveSession(nextSessionUid));
         }
 
         if (group.sessionUid) {
@@ -167,7 +167,7 @@ export function exitActiveTermGroup() {
       type: TERM_GROUP_EXIT_ACTIVE,
       effect() {
         const {sessions, termGroups} = getState();
-        const {uid} = findBySession(termGroups, sessions.activeUid!)!;
+        const {uid} = findBySession(termGroups, sessions.activeUid)!;
         dispatch(userExitTermGroup(uid));
       }
     });

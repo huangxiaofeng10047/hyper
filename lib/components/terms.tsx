@@ -40,7 +40,7 @@ export default class Terms extends React.Component<TermsProps> {
   }
 
   getActiveTerm() {
-    return this.getTermByUid(this.props.activeSession!);
+    return this.getTermByUid(this.props.activeSession);
   }
 
   onTerminal(uid: string, term: Term) {

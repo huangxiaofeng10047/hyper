@@ -138,14 +138,14 @@ function moveToNeighborPane(type: typeof UI_MOVE_NEXT_PANE | typeof UI_MOVE_PREV
       type,
       effect() {
         const {sessions, termGroups} = getState();
-        const {uid} = findBySession(termGroups, sessions.activeUid!)!;
-        const childGroups = findChildSessions(termGroups.termGroups, termGroups.activeRootGroup!);
+        const {uid} = findBySession(termGroups, sessions.activeUid)!;
+        const childGroups = findChildSessions(termGroups.termGroups, termGroups.activeRootGroup);
         if (childGroups.length === 1) {
           console.log('ignoring move for single group');
         } else {
           const index = getNeighborIndex(childGroups, uid, type);
           const {sessionUid} = termGroups.termGroups[childGroups[index]];
-          dispatch(setActiveSession(sessionUid!));
+          dispatch(setActiveSession(sessionUid));
         }
       }
     } as HyperActions);
@@ -166,7 +166,7 @@ export function moveLeft() {
       type: UI_MOVE_LEFT,
       effect() {
         const state = getState();
-        const uid = state.termGroups.activeRootGroup!;
+        const uid = state.termGroups.activeRootGroup;
         const groupUids = getGroupUids(state);
         const index = groupUids.indexOf(uid);
         const next = groupUids[index - 1] || groupUids[groupUids.length - 1];
@@ -187,7 +187,7 @@ export function moveRight() {
       effect() {
         const state = getState();
         const groupUids = getGroupUids(state);
-        const uid = state.termGroups.activeRootGroup!;
+        const uid = state.termGroups.activeRootGroup;
         const index = groupUids.indexOf(uid);
         const next = groupUids[index + 1] || groupUids[0];
         if (!next || uid === next) {

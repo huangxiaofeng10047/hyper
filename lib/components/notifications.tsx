@@ -109,7 +109,7 @@ export default class Notifications extends React.PureComponent<NotificationsProp
                   void window.require('electron').shell.openExternal(ev.currentTarget.href);
                   ev.preventDefault();
                 }}
-                href={this.props.updateReleaseUrl!}
+                href={this.props.updateReleaseUrl}
               >
                 Download
               </a>

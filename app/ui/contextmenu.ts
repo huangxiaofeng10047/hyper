@@ -14,7 +14,7 @@ const getCommandKeys = (keymaps: Record<string, string[]>): Record<string, strin
 
 // only display cut/copy when there's a cursor selection
 const filterCutCopy = (selection: string, menuItem: MenuItemConstructorOptions) => {
-  if (/^cut$|^copy$/.test(menuItem.role!) && !selection) {
+  if (/^cut$|^copy$/.test(menuItem.role) && !selection) {
     return;
   }
   return menuItem;

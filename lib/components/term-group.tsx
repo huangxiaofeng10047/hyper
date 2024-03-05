@@ -38,7 +38,7 @@ class TermGroup_ extends React.PureComponent<TermGroupProps> {
       return first;
     }
 
-    const direction = this.props.termGroup.direction!.toLowerCase() as 'horizontal' | 'vertical';
+    const direction = this.props.termGroup.direction.toLowerCase() as 'horizontal' | 'vertical';
     return (
       <SplitPane
         direction={direction}

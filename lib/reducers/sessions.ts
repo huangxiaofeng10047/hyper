@@ -67,7 +67,7 @@ const reducer: ISessionReducer = (state = initialState, action) => {
       return state.merge(
         {
           sessions: {
-            [state.activeUid!]: {
+            [state.activeUid]: {
               cleared: true
             }
           }
@@ -126,8 +126,8 @@ const reducer: ISessionReducer = (state = initialState, action) => {
       }
       return state;
     case SESSION_URL_SET:
-        return state.setIn(['sessions', action.uid, 'url'], action.url);
-  
+      return state.setIn(['sessions', action.uid, 'url'], action.url);
+
     default:
       return state;
   }

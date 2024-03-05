@@ -68,7 +68,7 @@ const removalRebalance = (oldSizes: ImmutableType<number[]>, index: number) => {
 
 const splitGroup = (state: ITermState, action: SessionAddAction) => {
   const {splitDirection, uid, activeUid} = action;
-  const activeGroup = findBySession(state, activeUid!)!;
+  const activeGroup = findBySession(state, activeUid)!;
   // If we're splitting in the same direction as the current active
   // group's parent - or if it's the first split for that group -
   // we want the parent to get another child:

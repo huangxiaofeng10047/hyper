@@ -136,7 +136,7 @@ export function resizeSession(uid: string, cols: number, rows: number) {
 
 export function openSearch(uid?: string) {
   return (dispatch: HyperDispatch, getState: () => HyperState) => {
-    const targetUid = uid || getState().sessions.activeUid!;
+    const targetUid = uid || getState().sessions.activeUid;
     dispatch({
       type: SESSION_SEARCH,
       uid: targetUid,
@@ -147,7 +147,7 @@ export function openSearch(uid?: string) {
 
 export function closeSearch(uid?: string, keyEvent?: any) {
   return (dispatch: HyperDispatch, getState: () => HyperState) => {
-    const targetUid = uid || getState().sessions.activeUid!;
+    const targetUid = uid || getState().sessions.activeUid;
     if (getState().sessions.sessions[targetUid]?.search) {
       dispatch({
         type: SESSION_SEARCH,
