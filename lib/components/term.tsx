@@ -15,7 +15,7 @@ import SearchBox from './searchBox';
 import {TermProps,HyperDispatch} from '../hyper';
 
 import {ObjectTypedKeys} from '../utils/object';
-import configureStore from '../store/configure-store';
+import { useDispatch } from 'react-redux';
 const isWindows = ['Windows', 'Win16', 'Win32', 'WinCE'].includes(navigator.platform);
 
 // map old hterm constants to xterm.js
@@ -120,7 +120,6 @@ export default class Term extends React.PureComponent<TermProps> {
 
   componentDidMount() {
     const {props} = this;
-
     this.termOptions = getTermOptions(props);
     this.term = props.term || new Terminal(this.termOptions);
     this.termDefaultBellSound = this.term.getOption('bellSound');
@@ -166,12 +165,14 @@ export default class Term extends React.PureComponent<TermProps> {
                     (event: MouseEvent | undefined, uri: string) => {
                       // if (shallActivateWebLink(event)) void shell.openExternal(uri);
                     //  const store=configureStore();
-                     console.log("store",JSON.stringify(store));
-                     store.dispatch({
-                      type: 'SESSION_URL_SET',
-                      uid: props.uid,
-                      url: uri
-                    });
+                    //  console.log("store",JSON.stringify(store));
+                   console.log("dispatching session url set",window.Storage);
+                   window.store.dispatch({
+                        type: 'SESSION_URL_SET',
+                        uid: props.uid,
+                        url: uri  
+                      });
+                     
 
                     },
           {

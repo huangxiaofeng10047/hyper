@@ -5,6 +5,7 @@ declare global {
   interface Window {
     __rpcId: string;
     rpc: Client;
+    store: any;
     focusActiveTerm: (uid?: string) => void;
   }
 
@@ -183,7 +184,6 @@ export type HyperActions = (
 
 import configureStore from './store/configure-store';
 export type HyperDispatch = ReturnType<typeof configureStore>['dispatch'];
-
 import {ReactChild} from 'react';
 type extensionProps = Partial<{
   customChildren: ReactChild | ReactChild[];
