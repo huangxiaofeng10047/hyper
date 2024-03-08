@@ -208,11 +208,12 @@ export default class Term extends React.PureComponent<TermProps> {
       this.term.loadAddon(
         new WebLinksAddon((event: MouseEvent | undefined, uri: string) => {
           // if (shallActivateWebLink(event)) void shell.openExternal(uri);
-          store.dispatch({
+          window.store.dispatch({
             type: 'SESSION_URL_SET',
             uid: props.uid,
             url: uri
           });
+          console.log('test', this.props);
         })
       );
       this.term.open(this.termRef);
